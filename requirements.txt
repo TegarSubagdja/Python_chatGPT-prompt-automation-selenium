@@ -1,0 +1,4 @@
+pynput==1.8.2
+pyperclip==1.11.0
+selenium==4.44.0
+pandas==3.0.3
