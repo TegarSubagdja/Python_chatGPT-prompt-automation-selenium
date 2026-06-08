@@ -350,7 +350,7 @@ def process_row(
     prompt.send_keys(Keys.ENTER)
 
     logging.info(
-        f"Processing {row['name']}"
+        f"Processing {row['name']} in idx {index}"
     )
 
     if not wait_response_finished(driver):
@@ -399,10 +399,12 @@ def process_row(
         logging.info(
             f"Success : {row['code']}"
         )
+        return True
     else:
         logging.error(
             f"Code tidak ditemukan : {row['code']}"
         )
+        return False
 
 
 # ==================================================
