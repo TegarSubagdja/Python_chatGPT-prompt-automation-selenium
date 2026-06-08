@@ -486,7 +486,7 @@ if __name__ == "__main__":
 
             save_counter += 1
 
-            if save_counter % 3 == 0:
+            if save_counter % 5 == 0:
 
                 data.to_excel(
                     EXCEL_FILE,
