@@ -26,7 +26,7 @@ EXCEL_FILE = "Data/data.xlsx"
 EXCEL_SHEET = "Sheet1"
 
 PROMPT_BASE = """
-Tugas:
+Tugas CP08062026:
 
 Tarik data dari company knowledge berdasarkan kode produk yang akan saya berikan.
 

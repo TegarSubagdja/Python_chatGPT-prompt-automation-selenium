@@ -173,9 +173,19 @@ def add_company_knowledge(driver):
 
 def send_base_prompt(driver):
     prompt = get_prompt(driver)
-    prompt.send_keys(PROMPT_BASE)
+    pyperclip.copy(PROMPT_BASE)
+    prompt.send_keys(Keys.CONTROL + "v")
+    time.sleep(1)
     prompt.send_keys(Keys.ENTER)
+    logging.info("Base prompt has sent")
 
+def is_base_prompt_has_sent(driver):
+    try:
+        code_prompt = "CP08062026"
+        body = driver.find_element(By.TAG_NAME, "body")
+        return code_prompt in body.get_attribute("textContent")
+    except Exception:
+        return False
 
 # ==================================================
 # VALIDATION
@@ -353,13 +363,18 @@ def process_row(
 
             create_new_chat(driver)
 
+            send_base_prompt(driver)
+
         else:
 
             logging.warning(
-                "Timeout response"
+                "Timeout response (3 minutes)"
             )
 
             refresh_page(driver)
+
+            if is_base_prompt_has_sent(driver) == False:
+                send_base_prompt(driver)
 
         return
 
@@ -429,6 +444,13 @@ if __name__ == "__main__":
     if not driver:
         raise Exception(
             "Tab ChatGPT tidak ditemukan"
+        )
+
+    if not is_base_prompt_has_sent(driver):
+        send_base_prompt(driver)
+    else:
+        logging.info(
+            "Base prompt has already sent"
         )
 
     data = pd.read_excel(
