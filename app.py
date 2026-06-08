@@ -474,12 +474,15 @@ if __name__ == "__main__":
             if STOP_FLAG:
                 break
 
+            if "success" in row["status"].lower():
+                continue
+
             process_row(
                 driver,
                 data,
                 index,
                 row
-            )
+                )
 
             save_counter += 1
 
