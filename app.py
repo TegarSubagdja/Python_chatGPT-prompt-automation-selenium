@@ -450,6 +450,7 @@ if __name__ == "__main__":
 
     if not is_base_prompt_has_sent(driver):
         send_base_prompt(driver)
+        wait_response_finished(driver)
     else:
         logging.info(
             "Base prompt has already sent"
