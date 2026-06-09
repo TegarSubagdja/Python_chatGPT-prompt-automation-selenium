@@ -1,3 +1,4 @@
+import config
 import os
 import re
 import time
@@ -7,7 +8,7 @@ import pyperclip
 import pandas as pd
 
 from pynput import keyboard
-
+from collections import deque
 from selenium import webdriver
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
@@ -186,6 +187,14 @@ def is_base_prompt_has_sent(driver):
         return code_prompt in body.get_attribute("textContent")
     except Exception:
         return False
+
+def add_window_response_time(window, response_time):
+    if len(window) == maxlen:
+        window.popleft()
+    window.append(response_time)
+    total_response_time = sum(window)
+    avg_response_time = total_response_time / len(window)
+    return window, avg_response_time
 
 # ==================================================
 # VALIDATION
@@ -435,7 +444,7 @@ def on_press(key):
 
 if __name__ == "__main__":
     options = Options()
-    options.debugger_address = "127.0.0.1:9222"
+    options.debugger_address = config.ADDRESS_IP
 
     driver = webdriver.Chrome(
         options=options
@@ -468,6 +477,10 @@ if __name__ == "__main__":
 
     listener.start()
 
+    maxlen = config.MAX_LEN
+    window = deque(maxlen=10)
+    total_response_time = 0
+
     try:
 
         save_counter = 0
@@ -480,11 +493,28 @@ if __name__ == "__main__":
             if "success" in str(row["status"]).lower():
                 continue
 
+            start_time = time.perf_counter()
+
             process_row(
                 driver,
                 data,
                 index,
                 row
+                )
+
+            end_time = time.perf_counter()
+
+            response_time = end_time - start_time
+
+            window, avg_response_time = add_window_response_time(
+                window,
+                response_time
+            )
+
+            if avg_response_time > config.AVG_RESPONSE_TIME_LIMIT:
+                create_new_chat(driver)
+                logging.info(
+                    f"Avg response time > {config.AVG_RESPONSE_TIME_LIMIT} seconds, create new chat"
                 )
 
             save_counter += 1

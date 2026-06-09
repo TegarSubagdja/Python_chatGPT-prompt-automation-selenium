@@ -1,3 +1,9 @@
+ADDRESS_IP = "127.0.0.1:9222"
+
+MAX_LEN = 10
+
+AVG_RESPONSE_TIME_LIMIT = 60
+
 STOP_FLAG = False
 
 CHATGPT_URL = "chatgpt.com"
