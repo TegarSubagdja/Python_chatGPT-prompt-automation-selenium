@@ -513,6 +513,11 @@ if __name__ == "__main__":
 
             if avg_response_time > config.AVG_RESPONSE_TIME_LIMIT:
                 create_new_chat(driver)
+
+                if not is_base_prompt_has_sent(driver):
+                    send_base_prompt(driver)
+                    wait_response_finished(driver)
+                
                 logging.info(
                     f"Avg response time > {config.AVG_RESPONSE_TIME_LIMIT} seconds, create new chat"
                 )
