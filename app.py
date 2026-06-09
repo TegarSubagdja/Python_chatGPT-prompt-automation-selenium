@@ -139,9 +139,16 @@ def create_new_chat(driver):
         Keys.CONTROL + Keys.SHIFT + "o"
     )
 
-    logging.info("New Chat dibuat")
+    time.sleep(3)
 
-    time.sleep(2)
+    if not get_company_knowledge(driver):
+        add_company_knowledge(driver)
+        
+    send_base_prompt(driver)
+
+    wait_response_finished(driver)
+
+    logging.info("New Chat dibuat")
 
 
 def refresh_page(driver):
@@ -372,8 +379,6 @@ def process_row(
 
             create_new_chat(driver)
 
-            send_base_prompt(driver)
-
         else:
 
             logging.warning(
@@ -514,10 +519,6 @@ if __name__ == "__main__":
             if avg_response_time > config.AVG_RESPONSE_TIME_LIMIT:
                 create_new_chat(driver)
 
-                if not is_base_prompt_has_sent(driver):
-                    send_base_prompt(driver)
-                    wait_response_finished(driver)
-                
                 logging.info(
                     f"Avg response time > {config.AVG_RESPONSE_TIME_LIMIT} seconds, create new chat"
                 )
