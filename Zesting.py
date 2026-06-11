@@ -20,9 +20,9 @@ Fungsi: menurunkan speed dan meningkatkan torsi output
 catatan:
 Tidak ada"""
 
-print(f"Panjang asli : {len(text)}")
+print(f"Panjang asli : {len(text.split())}")
 
-panjang_text = len(text.split())/80
+panjang_text = len(text.split())//6
 
 batas_bawah = int(panjang_text)
 batas_atas = int(panjang_text + 3)

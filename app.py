@@ -438,8 +438,8 @@ def process_row(
         )
         return False
 
-    wait_by_response(response)
-
+    if random_wait:
+        wait_by_response(response)
 
 # ==================================================
 # HOTKEY
@@ -555,7 +555,6 @@ if __name__ == "__main__":
                     logging.info(
                         f"Avg response time < {config.AVG_RESPONSE_TIME_LIMIT_BOTTOM} seconds and limit reached"
                     )
-                    break
 
             save_counter += 1
 

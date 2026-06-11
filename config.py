@@ -34,7 +34,7 @@ LIMIT_KEYWORDS = [
     "unusual activity"
 ]
 
-EXCEL_FILE = "Data/data.xlsx"
+EXCEL_FILE = "Data/data2.xlsx"
 EXCEL_SHEET = "Sheet1"
 
 PROMPT_BASE = """
