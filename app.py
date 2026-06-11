@@ -206,8 +206,12 @@ def add_window_response_time(window, response_time, maxlen):
 
 def wait_by_response(response_text):
     len_text = len(response_text)
-    random_time = random.randint(len_text, int(len_text * 1.4))
-    time.sleep(random_time)
+    second = len_text // 80
+    random_time = random.randint(second, second + 3)
+    start_time = time.perf_counter()
+    while time.perf_counter() - start_time < random_time and not STOP_FLAG:
+        time.sleep(1)
+    return True
 
 # ==================================================
 # VALIDATION
@@ -337,7 +341,8 @@ def process_row(
     driver,
     data,
     index,
-    row
+    row,
+    random_wait=False
 ):
 
     company_knowledge = (
@@ -519,7 +524,8 @@ if __name__ == "__main__":
                 driver,
                 data,
                 index,
-                row
+                row,
+                random_wait=True
                 )
 
             end_time = time.perf_counter()
