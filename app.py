@@ -544,6 +544,7 @@ if __name__ == "__main__":
 
             if len(window) >= minlen and avg_response_time > config.AVG_RESPONSE_TIME_LIMIT:
                 create_new_chat(driver)
+                window.clear()
 
                 logging.info(
                     f"Avg response time > {config.AVG_RESPONSE_TIME_LIMIT} seconds, create new chat"
@@ -552,6 +553,7 @@ if __name__ == "__main__":
             if len(window) >= minlen and avg_response_time < config.AVG_RESPONSE_TIME_LIMIT_BOTTOM:
                 if is_limit_reached(driver):
                     STOP_FLAG = True
+                    window.clear()
                     logging.info(
                         f"Avg response time < {config.AVG_RESPONSE_TIME_LIMIT_BOTTOM} seconds and limit reached"
                     )
